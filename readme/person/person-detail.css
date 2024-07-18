@@ -1,0 +1,192 @@
+/* person-detail.css */
+
+.profile-card {
+  margin-left: 188px;
+  margin-right: 188px;
+  margin-bottom: 20px;
+  border: 1px solid #ccc;
+  border-radius: 8px;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+  padding: 0px;
+}
+.default-avatar {
+  position: relative;
+  /* margin-left: 100px; */
+  width: 168px; /* Adjust size as needed */
+  height: 168px; /* Adjust size as needed */
+}
+.profile-avatar {
+  margin-left: 200px;
+  width: 168px; /* Adjust size as needed */
+  height: 168px; /* Adjust size as needed */
+}
+
+.profile-name {
+  margin-top: 10px;
+  font-size: 32px;
+  font-weight: bold;
+}
+
+.profile-info {
+  font-size: 16px;
+  color: #666;
+  margin-bottom: 5px;
+}
+
+.profile-actions {
+  margin-top: 15px;
+}
+
+.profile-detail-card {
+  margin-bottom: 20px;
+  border: 1px solid #ccc;
+  border-radius: 8px;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+  padding: 20px;
+}
+
+.profile-posts-section {
+  margin-bottom: 20px;
+  padding: 20px;
+}
+.posts {
+  padding-right: 200px;
+}
+.sort-button {
+  /* margin-right: 20px; */
+}
+.profile-post-card {
+  margin-bottom: 20px;
+  border: 1px solid #ccc;
+  border-radius: 8px;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+}
+
+.profile-post-body {
+  padding: 20px;
+}
+
+.post-header {
+  display: flex;
+  align-items: center;
+  margin-bottom: 10px;
+}
+
+.post-avatar {
+  flex: 0 0 auto;
+  margin-right: 10px;
+}
+
+.post-avatar-img {
+  width: 50px; /* Adjust size as needed */
+  height: 50px; /* Adjust size as needed */
+  border-radius: 50%;
+}
+
+.post-info {
+  flex: 1;
+}
+
+.post-title {
+  font-size: 18px;
+  margin-bottom: 0px;
+  color: #0866ff;
+}
+.custom-link {
+  color: #888; /* Màu bạn muốn sử dụng */
+  text-decoration: none;
+}
+
+.custom-link:hover {
+  color: #2980b9; /* Màu khi hover */
+}
+.post-author-date {
+  font-size: 14px;
+  color: #888;
+}
+
+.post-content {
+  margin-top: 10px;
+}
+
+.paragraph-image {
+  max-width: 100%; /* Adjust image size as needed */
+  margin-top: 10px;
+  border-radius: 8px;
+}
+.profile-detail-title {
+  font-size: 20px;
+  font-weight: bold;
+}
+.profile-detail-col {
+  padding-left: 200px; /* Khoảng cách phải của profile-detail-card */
+}
+
+.profile-posts-col {
+  padding-right: 200px; /* Khoảng cách trái của profile-posts-section */
+}
+.camera-icon {
+  position: absolute;
+  bottom: 10px;
+  right: 10px;
+  background-color: #e4e6eb;
+  border-radius: 50%;
+  padding: 8px;
+  box-shadow: 0 0 5px rgba(0, 0, 0, 0.3); /* Đổ bóng cho icon camera */
+  z-index: 1; /* Đảm bảo icon camera chồng lên trên avatar */
+  height: 20px;
+}
+.profile-avatar {
+  position: relative; /* Để có thể điều chỉnh vị trí tương đối cho camera-icon */
+}
+
+/* .camera-icon {
+  position: absolute;
+  bottom: 0;
+  right: 0;
+  transform: translate(-50%, 50%);
+  height: 50px; 
+} */
+.profile-info-container {
+  display: flex;
+  flex-direction: column;
+  padding-left: 20px;
+  align-items: flex-start;
+}
+
+.profile-info-container h3,
+.profile-info-container p {
+  margin-bottom: 10px;
+}
+
+.profile-info-container {
+  text-align: left; /* Đảm bảo các phần tử khác được căn trái */
+}
+
+.profile-actions {
+  margin-left: auto;
+  display: flex;
+  justify-content: flex-end; /* Căn các nút bên trong phần này sang phải */
+  /* padding-right: 200px; */
+}
+
+.profile-actions a,
+.profile-actions button {
+  margin-left: 10px; /* Khoảng cách giữa các nút */
+}
+.jh-entity-details dt {
+  display: flex;
+  align-items: center;
+  margin-bottom: 10px;
+}
+
+.detail-item {
+  display: flex;
+  align-items: center;
+  margin-bottom: 10px;
+}
+
+.profile-icon {
+  margin-right: 10px;
+  font-size: 1.2em; /* Điều chỉnh kích thước icon */
+}

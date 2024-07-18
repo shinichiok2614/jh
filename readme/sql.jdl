@@ -1,0 +1,88 @@
+entity Person{
+    name String required
+    phone String maxlength(10) minlength(10)
+    address String
+    createdAt Instant
+    updateAt Instant
+    dateOfBirth Instant
+}
+entity Department{
+    name String required
+    thumbnail String
+}
+entity Category{
+    name String required
+}
+enum Status{
+    PENDING,
+    SUCCESS,
+    CANCELLED
+}
+entity Post{
+    name String required
+    createdAt Instant
+    updateAt Instant
+    status Status
+    view Integer
+}
+entity Paragraph{
+    name String required
+    description TextBlob
+    order Integer required
+    createdAt Instant
+    updateAt Instant
+}
+entity Image{
+    name String required
+    image ImageBlob required
+    height Integer
+    width Integer
+    taken Instant
+    uploaded Instant
+}
+entity Album{
+    name String required
+    createdAt Instant
+}
+entity Comment{
+    description TextBlob
+    createdAt Instant
+    updateAt Instant
+}
+entity CommentList{
+    name String required
+    createdAt Instant
+}
+entity Message{
+    content TextBlob
+    createdAt Instant
+    status Status
+}
+entity MessageList{
+    name String
+    createdAt Instant
+}
+
+relationship OneToOne{
+    Album{post} to Post
+    CommentList{post} to Post
+    Comment{person} to Person
+    Image{person} to Person
+    Message{sender} to Person
+    Person{user} to User with builtInEntity
+}
+relationship ManyToOne {
+    Person{department(name)} to Department
+    Post{category(name)} to Category
+    Post{person(name)} to Person
+    Paragraph{post(name)} to Post
+    Image{album(name)} to Album
+    Comment{commentlist(name)} to CommentList
+    Image{paragraph(name)} to Paragraph
+    MessageList{author(name)} to Person
+    MessageList{receiver(name)} to Person
+    Message{messagelist(name)} to MessageList
+}
+
+
+paginate Image with infinite-scroll

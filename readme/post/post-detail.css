@@ -1,0 +1,140 @@
+/* post-detail.css */
+
+.post-card {
+  margin-bottom: 20px;
+}
+
+.post-card .card-body {
+  padding: 20px;
+}
+
+.post-title {
+  font-size: 32px;
+  font-weight: bold;
+  margin-bottom: 10px;
+}
+
+.post-status-view {
+  display: flex;
+  align-items: center;
+  justify-content: flex-start; /* Điều chỉnh từ space-between sang flex-start */
+  margin-bottom: 20px;
+  gap: 10px; /* Thêm khoảng cách giữa các phần tử nếu cần */
+}
+
+.post-status,
+.post-view {
+  font-size: 1rem;
+  line-height: 1.5; /* Đảm bảo cùng chiều cao dòng */
+  margin: 0; /* Đảm bảo không có margin không mong muốn */
+  padding: 0; /* Đảm bảo không có padding không mong muốn */
+}
+
+.post-status {
+  color: #6c757d;
+}
+
+.post-view {
+  color: #28a745;
+}
+
+.post-author {
+  display: flex;
+  align-items: center;
+  margin-bottom: 20px;
+}
+
+.post-author img {
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  margin-right: 10px;
+  object-fit: cover; /* Đảm bảo hình ảnh không bị biến dạng */
+}
+
+.post-author-name {
+  font-size: 16px;
+  font-weight: bold;
+  color: #0768ea;
+  margin: 0; /* Loại bỏ margin */
+  padding: 0; /* Loại bỏ padding */
+  border: 1px solid transparent; /* Chỉ thêm nếu cần viền */
+}
+
+.post-author-date {
+  font-size: 0.875rem;
+  color: #6c757d;
+  margin: 0; /* Loại bỏ margin */
+  padding: 0; /* Loại bỏ padding */
+  border: 1px solid transparent; /* Chỉ thêm nếu cần viền */
+}
+
+.post-author-info {
+  display: flex;
+  flex-direction: column;
+  justify-content: center; /* Căn chỉnh nội dung theo chiều dọc */
+}
+.paragraph-image-container {
+  display: flex;
+  justify-content: center;
+  flex-wrap: wrap;
+}
+
+.paragraph-image {
+  margin: 10px;
+}
+
+.paragraph-description {
+  font-size: 1rem;
+  margin-bottom: 10px;
+}
+
+.paragraph-image {
+  max-width: 100%;
+  margin-bottom: 10px;
+}
+
+.comment-card {
+  margin-bottom: 20px;
+}
+
+.comment-author {
+  display: flex;
+  align-items: center;
+}
+
+.comment-author img {
+  width: 50px;
+  height: 50px;
+  border-radius: 50%;
+  margin-right: 10px;
+}
+
+.comment-author-name {
+  font-size: 1rem;
+  font-weight: bold;
+  margin: 0; /* Loại bỏ margin */
+  padding: 0; /* Loại bỏ padding */
+  border: 1px solid transparent; /* Chỉ thêm nếu cần viền */
+}
+
+.comment-author-date {
+  font-size: 0.875rem;
+  color: #6c757d;
+  margin: 0; /* Loại bỏ margin */
+  padding: 0; /* Loại bỏ padding */
+  border: 1px solid transparent; /* Chỉ thêm nếu cần viền */
+}
+
+.comment-description {
+  font-size: 1rem;
+  margin-top: 5px;
+  margin: 0; /* Loại bỏ margin */
+  padding: 0; /* Loại bỏ padding */
+  border: 1px solid transparent; /* Chỉ thêm nếu cần viền */
+}
+
+.back-button,
+.edit-button {
+  margin-top: 10px;
+}
