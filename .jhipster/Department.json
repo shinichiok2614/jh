@@ -1,0 +1,20 @@
+{
+  "annotations": {
+    "changelogDate": "20240718162251"
+  },
+  "applications": "*",
+  "fields": [
+    {
+      "fieldName": "name",
+      "fieldType": "String",
+      "fieldValidateRules": ["required"]
+    },
+    {
+      "fieldName": "thumbnail",
+      "fieldType": "String"
+    }
+  ],
+  "name": "Department",
+  "relationships": [],
+  "searchEngine": "no"
+}

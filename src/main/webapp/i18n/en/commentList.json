@@ -1,0 +1,26 @@
+{
+  "jhSeaportApp": {
+    "commentList": {
+      "home": {
+        "title": "Comment Lists",
+        "refreshListLabel": "Refresh list",
+        "createLabel": "Create a new Comment List",
+        "createOrEditLabel": "Create or edit a Comment List",
+        "notFound": "No Comment Lists found"
+      },
+      "created": "A new Comment List is created with identifier {{ param }}",
+      "updated": "A Comment List is updated with identifier {{ param }}",
+      "deleted": "A Comment List is deleted with identifier {{ param }}",
+      "delete": {
+        "question": "Are you sure you want to delete Comment List {{ id }}?"
+      },
+      "detail": {
+        "title": "Comment List"
+      },
+      "id": "ID",
+      "name": "Name",
+      "createdAt": "Created At",
+      "post": "Post"
+    }
+  }
+}

@@ -1,0 +1,44 @@
+{
+  "jhSeaportApp": {
+    "person": {
+      "home": {
+        "title": "People",
+        "refreshListLabel": "Refresh list",
+        "createLabel": "Create a new Person",
+        "createOrEditLabel": "Create or edit a Person",
+        "notFound": "No People found"
+      },
+      "created": "A new Person is created with identifier {{ param }}",
+      "updated": "A Person is updated with identifier {{ param }}",
+      "deleted": "A Person is deleted with identifier {{ param }}",
+      "delete": {
+        "question": "Are you sure you want to delete Person {{ id }}?"
+      },
+      "detail": {
+        "title": "Intro"
+      },
+      "id": "ID",
+      "name": "Name",
+      "phone": "Phone",
+      "address": "Address",
+      "createdAt": "Created At",
+      "updateAt": "Update At",
+      "dateOfBirth": "Date Of Birth",
+      "thumbnail": "Thumbnail",
+      "department": "Department",
+      "image": "Image",
+      "comment": "Comment",
+      "postCount": "Total post",
+      "post": {
+        "title": "Posts"
+      },
+      "createPost": "Create post",
+      "editProfile": "Edit profile",
+      "posts": {
+        "title": "Posts",
+        "none": "No post"
+      },
+      "user": "User"
+    }
+  }
+}

@@ -1,0 +1,27 @@
+{
+  "jhSeaportApp": {
+    "messageList": {
+      "home": {
+        "title": "Message Lists",
+        "refreshListLabel": "Refresh list",
+        "createLabel": "Create a new Message List",
+        "createOrEditLabel": "Create or edit a Message List",
+        "notFound": "No Message Lists found"
+      },
+      "created": "A new Message List is created with identifier {{ param }}",
+      "updated": "A Message List is updated with identifier {{ param }}",
+      "deleted": "A Message List is deleted with identifier {{ param }}",
+      "delete": {
+        "question": "Are you sure you want to delete Message List {{ id }}?"
+      },
+      "detail": {
+        "title": "Message List"
+      },
+      "id": "ID",
+      "name": "Name",
+      "createdAt": "Created At",
+      "author": "Author",
+      "receiver": "Receiver"
+    }
+  }
+}

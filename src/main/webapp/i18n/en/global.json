@@ -7,7 +7,18 @@
       "jhipster-needle-menu-add-element": "JHipster will add additional menu entries here (do not translate!)",
       "entities": {
         "main": "Entities",
-        "jhipster-needle-menu-add-entry": "JHipster will add additional entities here (do not translate!)"
+        "jhipster-needle-menu-add-entry": "JHipster will add additional entities here (do not translate!)",
+        "person": "Person",
+        "department": "Department",
+        "category": "Category",
+        "post": "Post",
+        "paragraph": "Paragraph",
+        "image": "Image",
+        "album": "Album",
+        "comment": "Comment",
+        "commentList": "Comment List",
+        "message": "Message",
+        "messageList": "Message List"
       },
       "account": {
         "main": "Account",
@@ -16,7 +27,8 @@
         "sessions": "Sessions",
         "login": "Sign in",
         "logout": "Sign out",
-        "register": "Register"
+        "register": "Register",
+        "about": "About"
       },
       "admin": {
         "main": "Administration",
@@ -98,7 +110,8 @@
       "open": "Open",
       "save": "Save",
       "view": "View",
-      "show": "Show {{otherEntity}}"
+      "show": "Show {{otherEntity}}",
+      "createContent": "Create Content"
     },
     "detail": {
       "field": "Field",

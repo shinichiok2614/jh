@@ -1,0 +1,10 @@
+{
+  "jhSeaportApp": {
+    "Status": {
+      "null": "",
+      "PENDING": "PENDING",
+      "SUCCESS": "SUCCESS",
+      "CANCELLED": "CANCELLED"
+    }
+  }
+}
