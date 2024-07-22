@@ -28,27 +28,20 @@ export const ParagraphPostId = () => {
   const navigate = useNavigate();
 
   const [sortState, setSortState] = useState(overrideSortStateWithQueryParams(getSortState(pageLocation, 'id'), pageLocation.search));
+  const [modalOpen, setModalOpen] = useState(false);
   const [editParagraph, setEditParagraph] = useState(null);
   const [editImage, setEditImage] = useState(null);
-  const [modalOpen, setModalOpen] = useState(false);
   const [isEditParagraph, setIsEditParagraph] = useState(false);
   const [isEditImage, setIsEditImage] = useState(false);
-  const [dataLoaded, setDataLoaded] = useState(false);
-  const [combinedData, setCombinedData] = useState([]);
 
   const paragraphList = useAppSelector(state => state.paragraph.entities);
   const imageList = useAppSelector(state => state.image.entities);
   const loading = useAppSelector(state => state.paragraph.loading);
   const updating = useAppSelector(state => state.paragraph.updating);
   const postEntity = useAppSelector(state => state.post.entity);
-  const imageListLoading = useAppSelector(state => state.image.loading);
 
   const isNew = !editParagraph || !editParagraph.id;
   const isNewImage = !editImage || !editImage.id;
-
-  //trong image-update dùng id url để biết create hay update nên dùng biến isNew lấy id
-  //file dùng redux nên không dùng được cách trên
-  //còn create image thôi
 
   useEffect(() => {
     dispatch(getPostById(id));
@@ -62,29 +55,11 @@ export const ParagraphPostId = () => {
 
   useEffect(() => {
     if (paragraphList.length > 0) {
-      // paragraphList.forEach(paragraph => {
-      //   dispatch(getEntitiesByParagraphId({ id: paragraph.id }));
-      // });
-      const loadImages = async () => {
-        const imagePromises = paragraphList.map(paragraph => dispatch(getEntitiesByParagraphId({ id: paragraph.id })));
-        await Promise.all(imagePromises);
-        setDataLoaded(true);
-      };
-      loadImages();
+      paragraphList.forEach(paragraph => {
+        dispatch(getEntitiesByParagraphId({ id: paragraph.id }));
+      });
     }
   }, [paragraphList, dispatch]);
-
-  useEffect(() => {
-    if (!imageListLoading) {
-      const combined = paragraphList.map(paragraph => {
-        return {
-          ...paragraph,
-          images: imageList.filter(image => image.paragraph && image.paragraph.id === paragraph.id),
-        };
-      });
-      setCombinedData(combined);
-    }
-  }, [paragraphList, imageList, imageListLoading]);
 
   useEffect(() => {
     sortEntities();
@@ -105,9 +80,27 @@ export const ParagraphPostId = () => {
     }
   };
 
+  // const sort = p => () => {
+  //   setSortState({
+  //     ...sortState,
+  //     order: sortState.order === ASC ? DESC : ASC,
+  //     sort: p,
+  //   });
+  // };
+
   const handleSyncList = () => {
     sortEntities();
   };
+
+  // const getSortIconByFieldName = (fieldName: string) => {
+  //   const sortFieldName = sortState.sort;
+  //   const order = sortState.order;
+  //   if (sortFieldName !== fieldName) {
+  //     return faSort;
+  //   } else {
+  //     return order === ASC ? faSortUp : faSortDown;
+  //   }
+  // };
 
   const handleEditClick = paragraph => {
     dispatch(getEntity(paragraph.id));
@@ -148,7 +141,6 @@ export const ParagraphPostId = () => {
           post: editParagraph.post ? editParagraph.post.id : null,
         }
       : {};
-
   const defaultValuesImages = () =>
     isNewImage
       ? {
@@ -254,8 +246,8 @@ export const ParagraphPostId = () => {
         </div>
       </h2>
       <div className="table-responsive">
-        {combinedData && combinedData.length > 0
-          ? combinedData.map(paragraph => (
+        {paragraphList && paragraphList.length > 0
+          ? paragraphList.map(paragraph => (
               <Card className="profile-post-card mb-3" key={paragraph.id}>
                 <CardBody className="profile-post-body">
                   <div className="paragraph-content">
@@ -296,42 +288,41 @@ export const ParagraphPostId = () => {
                       </Button>
                     </div>
                     <p>{paragraph.description}</p>
-                    {/* {imageList
+                    {imageList
                       .filter(image => image.paragraph && image.paragraph.id === paragraph.id)
-                      .map(image => ( */}
-                    {paragraph.images.map((image, i) => (
-                      <div>
-                        <Button
-                          onClick={() => handleEditImageClick(image, paragraph)}
-                          tag={Link}
-                          color="primary"
-                          size="sm"
-                          data-cy="entityEditButton"
-                        >
-                          <FontAwesomeIcon icon="pencil-alt" />{' '}
-                          <span className="d-none d-md-inline">
-                            <Translate contentKey="entity.action.edit">Edit</Translate>
-                          </span>
-                        </Button>
-                        <Button
-                          onClick={() => (window.location.href = `/image/${image.id}/delete`)}
-                          color="danger"
-                          size="sm"
-                          data-cy="entityDeleteButton"
-                        >
-                          <FontAwesomeIcon icon="trash" />{' '}
-                          <span className="d-none d-md-inline">
-                            <Translate contentKey="entity.action.delete">Delete</Translate>
-                          </span>
-                        </Button>
-                        <img
-                          key={image.id}
-                          src={`data:${image.imageContentType};base64,${image.image}`}
-                          alt={image.name}
-                          className="paragraph-image"
-                        />
-                      </div>
-                    ))}
+                      .map(image => (
+                        <div>
+                          <Button
+                            onClick={() => handleEditImageClick(image, paragraph)}
+                            tag={Link}
+                            color="primary"
+                            size="sm"
+                            data-cy="entityEditButton"
+                          >
+                            <FontAwesomeIcon icon="pencil-alt" />{' '}
+                            <span className="d-none d-md-inline">
+                              <Translate contentKey="entity.action.edit">Edit</Translate>
+                            </span>
+                          </Button>
+                          <Button
+                            onClick={() => (window.location.href = `/image/${image.id}/delete`)}
+                            color="danger"
+                            size="sm"
+                            data-cy="entityDeleteButton"
+                          >
+                            <FontAwesomeIcon icon="trash" />{' '}
+                            <span className="d-none d-md-inline">
+                              <Translate contentKey="entity.action.delete">Delete</Translate>
+                            </span>
+                          </Button>
+                          <img
+                            key={image.id}
+                            src={`data:${image.imageContentType};base64,${image.image}`}
+                            alt={image.name}
+                            className="paragraph-image"
+                          />
+                        </div>
+                      ))}
                   </div>
                 </CardBody>
               </Card>
