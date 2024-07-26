@@ -28,7 +28,8 @@ export const ParagraphUpdate = () => {
   const updateSuccess = useAppSelector(state => state.paragraph.updateSuccess);
 
   const handleClose = () => {
-    navigate('/paragraph');
+    navigate('/paragraph/:id/postId');
+    // navigate('/paragraph/');
   };
 
   useEffect(() => {

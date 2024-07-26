@@ -1,10 +1,138 @@
-/* ==========================================================================
-Main page styles
-========================================================================== */
-.hipster {
-  display: inline-block;
-  width: 100%;
-  height: 497px;
-  background: url('/content/images/jhipster_family_member_2.svg') no-repeat center top;
-  background-size: contain;
+.container {
+  width: 75%;
+  margin: 0 auto;
+  min-width: 1300px;
+}
+// .category-button {
+//   flex: 1;
+//   height: 100%;
+//   transition: background-color 0.5s ease;
+//   padding: 10px;
+
+//   &:hover {
+//     background-color: #0056b3; // Chọn màu bạn muốn khi hover
+//   }
+// }
+
+.category-row {
+  display: flex;
+  height: 100%;
+  justify-content: space-around;
+  margin-bottom: 20px;
+  background-color: rgb(153, 0, 0);
+  padding: 10px;
+  border-bottom: 1px solid #dee2e6;
+}
+
+.category-row button {
+  background: none;
+  border: none;
+  padding: 1px;
+  cursor: pointer;
+  color: #ffffff;
+  text-transform: uppercase;
+  font-family: Arial, 'Helvetica Neue', Helvetica, sans-serif;
+  font-size: 12px;
+  font-weight: bold;
+  height: 100%;
+  // flex: 1;
+}
+
+.category-row button:hover {
+  text-decoration: underline;
+}
+
+.accordion .card {
+  margin-bottom: 1px;
+  border: 1px solid transparent;
+}
+
+.accordion .card-header {
+  background-color: #f8f9fa;
+  padding: 1px;
+  border: 1px solid transparent;
+  border-top: 3px solid rgb(153, 0, 0);
+  border-bottom: 0.5px solid gray;
+}
+
+.accordion .card-header .btn-link {
+  color: rgb(153, 0, 0);
+  text-decoration: none;
+  text-transform: uppercase;
+  font-size: 22px;
+  font-weight: bold;
+}
+
+.accordion .card-body {
+  border: 1px solid transparent;
+}
+
+.content {
+  display: flex;
+  flex-direction: row;
+}
+
+.card-content {
+  display: flex;
+  flex-direction: row;
+}
+
+.left-half,
+.right-half {
+  padding: 10px;
+  // width: 50%; /* Đặt chiều rộng cố định cho mỗi nửa */
+  overflow: hidden; /* Ẩn nội dung tràn ra ngoài */
+  box-sizing: border-box; /* Bao gồm padding và border trong chiều rộng và chiều cao */
+  position: relative;
+}
+
+.left-half img,
+.right-half img {
+  width: 100%; /* Chiều rộng của hình ảnh bằng một nửa chiều rộng của bài viết */
+  // display: block; /* Đảm bảo hình ảnh không bị lộn xộn với văn bản */
+  // max-width: 100%; /* Đảm bảo hình ảnh không vượt quá chiều rộng của phần tử chứa */
+  height: auto; /* Giữ tỷ lệ khung hình của hình ảnh */
+  margin: 0 auto;
+}
+
+.main-content {
+  // flex: 0 0 70%;
+  // flex: 3;
+  width: 70%; /* Đặt chiều rộng cố định cho mỗi nửa */
+  background-color: lightblue;
+}
+.right-content {
+  // flex: 0 0 30%;
+  // flex: 1;
+  width: 30%; /* Đặt chiều rộng cố định cho mỗi nửa */
+  background-color: lightgreen;
+}
+.left-half {
+  width: 60%;
+  // background-color: lightcoral;
+}
+.right-half {
+  width: 40%;
+  background-color: lightgoldenrodyellow;
+}
+
+.child {
+  // position: relative;
+  display: flex;
+  margin-bottom: 20px;
+}
+.child img {
+  // overflow: hidden;
+  width: 40%;
+  margin-right: 20px;
+}
+.child-1 {
+  font-weight: bold;
+}
+.paragraph-description {
+  display: -webkit-box;
+  -webkit-line-clamp: 3;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+  text-overflow: ellipsis;
 }

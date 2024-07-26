@@ -11,7 +11,8 @@ import ParagraphPostId from './paragraph-postId';
 
 const ParagraphRoutes = () => (
   <ErrorBoundaryRoutes>
-    <Route index element={<Paragraph />} />
+    <Route element={<Paragraph />} />
+    {/* <Route index path=":id/postId" element={<ParagraphPostId />} /> */}
     <Route path="new" element={<ParagraphUpdate />} />
     <Route path=":id">
       <Route index element={<ParagraphDetail />} />

@@ -19,6 +19,15 @@ const initialState: EntityState<IImage> = {
 const apiUrl = 'api/images';
 
 // Actions
+export const getEntitiesByPostId = createAsyncThunk(
+  'image/fetch_entities_list_by_post_id',
+  async ({ id, sort }: { id: number; sort?: string }) => {
+    const requestUrl = `${apiUrl}/by-post/${id}?${sort ? `sort=${sort}&` : ''}cacheBuster=${new Date().getTime()}`;
+    return axios.get<IImage[]>(requestUrl);
+  },
+  { serializeError: serializeAxiosError },
+);
+
 export const getEntitiesByParagraphId = createAsyncThunk(
   'image/fetch_entities_list_by_paragraph_id',
   async ({ id, sort }: { id: number; sort?: string }) => {
@@ -27,6 +36,7 @@ export const getEntitiesByParagraphId = createAsyncThunk(
   },
   { serializeError: serializeAxiosError },
 );
+
 export const getEntities = createAsyncThunk(
   'image/fetch_entity_list',
   async ({ page, size, sort }: IQueryParams) => {
@@ -47,8 +57,11 @@ export const getEntity = createAsyncThunk(
 
 export const createEntity = createAsyncThunk(
   'image/create_entity',
+  // async ({ entity, paragraphId }: { entity: IImage; paragraphId: number }, thunkAPI) => {
   async (entity: IImage, thunkAPI) => {
-    return axios.post<IImage>(apiUrl, cleanEntity(entity));
+    const result = axios.post<IImage>(apiUrl, cleanEntity(entity));
+    // thunkAPI.dispatch(getEntitiesByPostId({ id: paragraphId }));
+    return result;
   },
   { serializeError: serializeAxiosError },
 );
@@ -94,6 +107,15 @@ export const ImageSlice = createEntitySlice({
         state.updateSuccess = true;
         state.entity = {};
       })
+      .addMatcher(isFulfilled(getEntitiesByParagraphId, getEntitiesByPostId), (state, action) => {
+        state.loading = false;
+        state.entities = action.payload.data;
+      })
+      .addMatcher(isPending(getEntities, getEntity, getEntitiesByParagraphId, getEntitiesByPostId), state => {
+        state.errorMessage = null;
+        state.updateSuccess = false;
+        state.loading = true;
+      })
       .addMatcher(isFulfilled(getEntities), (state, action) => {
         const { data, headers } = action.payload;
         const links = parseHeaderForLinks(headers.link);
@@ -106,29 +128,11 @@ export const ImageSlice = createEntitySlice({
           totalItems: parseInt(headers['x-total-count'], 10),
         };
       })
-      .addMatcher(isFulfilled(getEntitiesByParagraphId), (state, action) => {
-        // const { data } = action.payload;
-        // const totalItems = Headers && Headers['x-total-count'] ? parseInt(Headers['x-total-count'], 10) : 0;
-        // return {
-        //   ...state,
-        //   loading: false,
-        //   entities: loadMoreDataWhenScrolled(state.entities, data, { next: 0 }),
-        //   // entities: action.payload,
-        //   totalItems,
-        // };
-        state.loading = false;
-        state.entities = action.payload.data;
-      })
       .addMatcher(isFulfilled(createEntity, updateEntity, partialUpdateEntity), (state, action) => {
         state.updating = false;
         state.loading = false;
         state.updateSuccess = true;
         state.entity = action.payload.data;
-      })
-      .addMatcher(isPending(getEntities, getEntity, getEntitiesByParagraphId), state => {
-        state.errorMessage = null;
-        state.updateSuccess = false;
-        state.loading = true;
       })
       .addMatcher(isPending(createEntity, updateEntity, partialUpdateEntity, deleteEntity), state => {
         state.errorMessage = null;

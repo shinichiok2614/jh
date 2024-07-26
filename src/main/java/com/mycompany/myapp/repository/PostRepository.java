@@ -39,4 +39,12 @@ public interface PostRepository extends JpaRepository<Post, Long> {
     Optional<Post> findOneWithToOneRelationships(@Param("id") Long id);
 
     List<Post> findAllByPersonId(Long personId);
+
+    List<Post> findAll();
+
+    @Query("SELECT p FROM Post p WHERE p.category.id = :categoryId ORDER BY p.createdAt DESC")
+    List<Post> findTop4ByCategoryIdOrderByCreatedAtDesc(@Param("categoryId") Long categoryId);
+
+    @Query("SELECT p FROM Post p ORDER BY p.view DESC")
+    List<Post> findTop4OrderByViewDesc();
 }

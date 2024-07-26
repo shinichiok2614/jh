@@ -18,6 +18,15 @@ const apiUrl = 'api/categories';
 
 // Actions
 
+export const getHome = createAsyncThunk(
+  'category/fetch_home',
+  async () => {
+    const requestUrl = `${apiUrl}/home`;
+    return axios.get<ICategory[]>(requestUrl);
+  },
+  { serializeError: serializeAxiosError },
+);
+
 export const getEntities = createAsyncThunk(
   'category/fetch_entity_list',
   async ({ sort }: IQueryParams) => {
@@ -88,6 +97,10 @@ export const CategorySlice = createEntitySlice({
         state.loading = false;
         state.entity = action.payload.data;
       })
+      .addCase(getHome.fulfilled, (state, action) => {
+        state.loading = false;
+        state.entities = action.payload.data;
+      })
       .addCase(deleteEntity.fulfilled, state => {
         state.updating = false;
         state.updateSuccess = true;
@@ -115,7 +128,7 @@ export const CategorySlice = createEntitySlice({
         state.updateSuccess = true;
         state.entity = action.payload.data;
       })
-      .addMatcher(isPending(getEntities, getEntity), state => {
+      .addMatcher(isPending(getEntities, getEntity, getHome), state => {
         state.errorMessage = null;
         state.updateSuccess = false;
         state.loading = true;

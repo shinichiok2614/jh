@@ -111,7 +111,9 @@
       "save": "Save",
       "view": "View",
       "show": "Show {{otherEntity}}",
-      "createContent": "Create Content"
+      "createContent": "Create Content",
+      "approve": "Approve",
+      "cancel": "Cancel"
     },
     "detail": {
       "field": "Field",

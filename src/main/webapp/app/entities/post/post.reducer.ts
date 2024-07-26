@@ -17,6 +17,11 @@ const initialState: EntityState<IPost> = {
 const apiUrl = 'api/posts';
 
 // Actions
+export const increaseView = createAsyncThunk('post/increase_view', async (id: number) => {
+  const requestUrl = `${apiUrl}/${id}/increaseView`;
+  const response = await axios.put<IPost>(requestUrl);
+  return response.data;
+});
 
 export const getEntitiesByPersonId = createAsyncThunk(
   'post/fetch_entities_by_person_id',
@@ -31,6 +36,15 @@ export const getEntities = createAsyncThunk(
   'post/fetch_entity_list',
   async ({ sort }: IQueryParams) => {
     const requestUrl = `${apiUrl}?${sort ? `sort=${sort}&` : ''}cacheBuster=${new Date().getTime()}`;
+    return axios.get<IPost[]>(requestUrl);
+  },
+  { serializeError: serializeAxiosError },
+);
+
+export const getAllPost = createAsyncThunk(
+  'post/get-all-post',
+  async () => {
+    const requestUrl = `${apiUrl}/allpost?cacheBuster=${new Date().getTime()}`;
     return axios.get<IPost[]>(requestUrl);
   },
   { serializeError: serializeAxiosError },

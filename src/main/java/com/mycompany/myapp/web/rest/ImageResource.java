@@ -20,8 +20,6 @@ import org.springframework.http.HttpHeaders;
 import org.springframework.http.ResponseEntity;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.*;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 import tech.jhipster.web.util.HeaderUtil;
 import tech.jhipster.web.util.PaginationUtil;
@@ -218,6 +216,13 @@ public class ImageResource {
     public ResponseEntity<List<Image>> getImageByParagraphId(@PathVariable("id") Long id) {
         log.debug("REST request to get Image by paragraphId: {}", id);
         List<Image> list = imageService.findAllByParagraphId(id);
+        return ResponseEntity.ok().body(list);
+    }
+
+    @GetMapping("/by-post/{id}")
+    public ResponseEntity<List<Image>> getImageByPostId(@PathVariable("id") Long id) {
+        log.debug("REST request to get Image by postId: {}", id);
+        List<Image> list = imageService.findAllByPostId(id);
         return ResponseEntity.ok().body(list);
     }
 }

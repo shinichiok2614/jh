@@ -196,9 +196,13 @@ public class ParagraphResource {
             .build();
     }
 
+    // @GetMapping("/by-post/{postId}")
+    // public ResponseEntity<List<Paragraph>> getAllParagraphsByPostId(@PathVariable Long postId) {
+    //     List<Paragraph> paragraphs = paragraphService.findAllByPostId(postId);
+    //     return ResponseEntity.ok().body(paragraphs);
+    // }
     @GetMapping("/by-post/{postId}")
-    public ResponseEntity<List<Paragraph>> getAllParagraphsByPostId(@PathVariable Long postId) {
-        List<Paragraph> paragraphs = paragraphService.findAllByPostId(postId);
-        return ResponseEntity.ok().body(paragraphs);
+    public List<Paragraph> getAllParagraphsByPostId(@PathVariable Long postId) {
+        return paragraphService.findAllByPostId(postId);
     }
 }

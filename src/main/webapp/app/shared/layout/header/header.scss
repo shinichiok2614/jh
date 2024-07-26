@@ -38,7 +38,7 @@ Development Ribbon
 Navbar styles
 ========================================================================== */
 .jh-navbar {
-  background-color: #353d47;
+  background-color: rgb(0, 0, 0);
   padding: 0.2em 1em;
   .profile-image {
     margin: -10px 0px;
@@ -120,4 +120,13 @@ Navbar styles
   position: absolute;
   top: 0px;
   z-index: 1031;
+}
+#app-header {
+  transition:
+    opacity 0.5s ease,
+    visibility 0.5s ease;
+  &.hidden {
+    opacity: 0;
+    visibility: hidden;
+  }
 }

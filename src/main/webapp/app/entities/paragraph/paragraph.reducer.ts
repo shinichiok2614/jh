@@ -46,9 +46,9 @@ export const getEntity = createAsyncThunk(
 
 export const createEntity = createAsyncThunk(
   'paragraph/create_entity',
-  async (entity: IParagraph, thunkAPI) => {
+  async ({ entity, postId }: { entity: IParagraph; postId: number }, thunkAPI) => {
     const result = await axios.post<IParagraph>(apiUrl, cleanEntity(entity));
-    thunkAPI.dispatch(getEntities({}));
+    thunkAPI.dispatch(getEntitiesByPostId({ postId }));
     return result;
   },
   { serializeError: serializeAxiosError },
@@ -76,10 +76,10 @@ export const partialUpdateEntity = createAsyncThunk(
 
 export const deleteEntity = createAsyncThunk(
   'paragraph/delete_entity',
-  async (id: string | number, thunkAPI) => {
+  async ({ id, postId }: { id: string | number; postId: number }, thunkAPI) => {
     const requestUrl = `${apiUrl}/${id}`;
     const result = await axios.delete<IParagraph>(requestUrl);
-    thunkAPI.dispatch(getEntities({}));
+    thunkAPI.dispatch(getEntitiesByPostId({ postId }));
     return result;
   },
   { serializeError: serializeAxiosError },

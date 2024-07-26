@@ -1,7 +1,10 @@
 package com.mycompany.myapp.web.rest;
 
 import com.mycompany.myapp.domain.Category;
+import com.mycompany.myapp.domain.Post;
 import com.mycompany.myapp.repository.CategoryRepository;
+import com.mycompany.myapp.service.CategoryService;
+import com.mycompany.myapp.service.dto.CategoryDTO;
 import com.mycompany.myapp.web.rest.errors.BadRequestAlertException;
 import jakarta.validation.Valid;
 import jakarta.validation.constraints.NotNull;
@@ -12,6 +15,7 @@ import java.util.Objects;
 import java.util.Optional;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.ResponseEntity;
 import org.springframework.transaction.annotation.Transactional;
@@ -36,8 +40,12 @@ public class CategoryResource {
 
     private final CategoryRepository categoryRepository;
 
-    public CategoryResource(CategoryRepository categoryRepository) {
+    @Autowired
+    private CategoryService categoryService;
+
+    public CategoryResource(CategoryRepository categoryRepository, CategoryService categoryService) {
         this.categoryRepository = categoryRepository;
+        this.categoryService = categoryService;
     }
 
     /**
@@ -174,5 +182,11 @@ public class CategoryResource {
         return ResponseEntity.noContent()
             .headers(HeaderUtil.createEntityDeletionAlert(applicationName, true, ENTITY_NAME, id.toString()))
             .build();
+    }
+
+    @GetMapping("/home")
+    public ResponseEntity<List<CategoryDTO>> getCategoriesWithLatestPosts() {
+        List<CategoryDTO> categoryDTOs = categoryService.getCategoriesWithLatestPosts();
+        return ResponseEntity.ok().body(categoryDTOs);
     }
 }

@@ -40,4 +40,7 @@ public interface ParagraphRepository extends JpaRepository<Paragraph, Long> {
     Optional<Paragraph> findOneWithToOneRelationships(@Param("id") Long id);
 
     List<Paragraph> findAllByPostId(Long postId);
+
+    @Query("SELECT p FROM Paragraph p WHERE p.post.id = :postId ORDER BY p.post.id ASC")
+    Optional<Paragraph> findFirstByPostIdOrderByOrderAsc(@Param("postId") Long postId);
 }

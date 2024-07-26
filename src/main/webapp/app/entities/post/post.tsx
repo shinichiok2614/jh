@@ -9,9 +9,10 @@ import { ASC, DESC, SORT } from 'app/shared/util/pagination.constants';
 import { overrideSortStateWithQueryParams } from 'app/shared/util/entity-utils';
 import { useAppDispatch, useAppSelector } from 'app/config/store';
 
-import { getEntities, getEntitiesByPersonId } from './post.reducer';
+import { getAllPost, getEntities, getEntitiesByPersonId } from './post.reducer';
 import { getAccount } from 'app/shared/reducers/authentication';
 import { getPersonByUserId } from 'app/entities/person/person.reducer'; // Thêm dòng này
+import PostComponent from 'app/components/post/post';
 
 export const Post = () => {
   const dispatch = useAppDispatch();
@@ -55,6 +56,7 @@ export const Post = () => {
 
   useEffect(() => {
     dispatch(getAccount());
+    dispatch(getAllPost());
   }, []);
 
   useEffect(() => {
@@ -114,7 +116,7 @@ export const Post = () => {
       <div className="table-responsive">
         {postList && postList.length > 0 ? (
           <Table responsive>
-            <thead>
+            {/* <thead>
               <tr>
                 <th className="hand" onClick={sort('id')}>
                   <Translate contentKey="jhSeaportApp.post.id">ID</Translate> <FontAwesomeIcon icon={getSortIconByFieldName('id')} />
@@ -148,61 +150,21 @@ export const Post = () => {
                 <th />
               </tr>
             </thead>
-            <tbody>
-              {postList.map((post, i) => (
-                <tr key={`entity-${i}`} data-cy="entityTable">
-                  <td>
-                    <Button tag={Link} to={`/post/${post.id}`} color="link" size="sm">
-                      {post.id}
-                    </Button>
-                  </td>
-                  <td>{post.name}</td>
-                  <td>{post.createdAt ? <TextFormat type="date" value={post.createdAt} format={APP_DATE_FORMAT} /> : null}</td>
-                  <td>{post.updateAt ? <TextFormat type="date" value={post.updateAt} format={APP_DATE_FORMAT} /> : null}</td>
-                  <td>
-                    <Translate contentKey={`jhSeaportApp.Status.${post.status}`} />
-                  </td>
-                  <td>{post.view}</td>
-                  <td>{post.category ? <Link to={`/category/${post.category.id}`}>{post.category.name}</Link> : ''}</td>
-                  {account.authorities.includes('ROLE_ADMIN') && (
-                    <td>{post.person ? <Link to={`/person/${post.person.id}`}>{post.person.name}</Link> : ''}</td>
-                  )}
-                  <td className="text-end">
-                    <div className="btn-group flex-btn-group-container">
-                      <Button tag={Link} to={`/paragraph/${post.id}/postId`} color="info" size="sm" data-cy="entityDetailsButton">
-                        <FontAwesomeIcon icon="eye" />{' '}
-                        <span className="d-none d-md-inline">
-                          <Translate contentKey="entity.action.createContent">Create Content</Translate>
-                        </span>
-                      </Button>
-                      <Button tag={Link} to={`/post/${post.id}`} color="info" size="sm" data-cy="entityDetailsButton">
-                        <FontAwesomeIcon icon="eye" />{' '}
-                        <span className="d-none d-md-inline">
-                          <Translate contentKey="entity.action.view">View</Translate>
-                        </span>
-                      </Button>
-                      <Button tag={Link} to={`/post/${post.id}/edit`} color="primary" size="sm" data-cy="entityEditButton">
-                        <FontAwesomeIcon icon="pencil-alt" />{' '}
-                        <span className="d-none d-md-inline">
-                          <Translate contentKey="entity.action.edit">Edit</Translate>
-                        </span>
-                      </Button>
-                      <Button
-                        onClick={() => (window.location.href = `/post/${post.id}/delete`)}
-                        color="danger"
-                        size="sm"
-                        data-cy="entityDeleteButton"
-                      >
-                        <FontAwesomeIcon icon="trash" />{' '}
-                        <span className="d-none d-md-inline">
-                          <Translate contentKey="entity.action.delete">Delete</Translate>
-                        </span>
-                      </Button>
-                    </div>
-                  </td>
-                </tr>
-              ))}
-            </tbody>
+            <tbody> */}
+            {postList.map((post, i) => (
+              <PostComponent
+                key={`entity-${i}`}
+                id={post.id}
+                name={post.name}
+                createdAt={post.createdAt}
+                updateAt={post.updateAt}
+                status={post.status}
+                view={post.view}
+                category={post.category}
+                person={post.person}
+              />
+            ))}
+            {/* </tbody> */}
           </Table>
         ) : (
           !loading && (

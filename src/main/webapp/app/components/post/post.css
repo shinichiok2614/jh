@@ -1,0 +1,78 @@
+/* src/main/webapp/app/entities/post/post.css */
+
+.post-card {
+  display: flex;
+  flex-direction: column;
+  background-color: white;
+  border: 1px solid #ddd;
+  border-radius: 8px;
+  padding: 16px;
+  margin-bottom: 16px;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+}
+
+.post-header {
+  display: flex;
+  align-items: center;
+  margin-bottom: 8px;
+}
+
+.post-avatar {
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  margin-right: 12px;
+  background-color: #ccc;
+}
+
+.post-info {
+  flex-grow: 1;
+}
+
+.post-info h5 {
+  margin: 0;
+  font-size: 16px;
+  font-weight: bold;
+}
+
+.post-info p {
+  margin: 0;
+  font-size: 12px;
+  color: #555;
+}
+
+/* .post-content {
+  margin-bottom: 8px;
+} */
+
+.post-dates {
+  font-size: 12px;
+  color: #888;
+  margin-bottom: 8px;
+}
+
+.post-actions {
+  display: flex;
+  justify-content: flex-end;
+}
+
+.post-actions button {
+  margin-left: 8px;
+}
+
+.status-pending {
+  border-left: 4px solid #ffeb3b;
+}
+
+.status-success {
+  border-left: 4px solid #4caf50;
+}
+
+.status-cancelled {
+  border-left: 4px solid #f44336;
+}
+.post-content {
+  font-size: 1.5em;
+  font-weight: bold;
+  /* margin-bottom: 10px; */
+}

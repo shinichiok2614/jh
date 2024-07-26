@@ -25,6 +25,7 @@
       "view": "View",
       "category": "Category",
       "person": "Person",
+      "author": "Creator",
       "album": "Album",
       "commentList": "Comment List"
     }

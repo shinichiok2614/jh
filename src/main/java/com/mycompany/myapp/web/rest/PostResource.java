@@ -3,6 +3,7 @@ package com.mycompany.myapp.web.rest;
 import com.mycompany.myapp.domain.Post;
 import com.mycompany.myapp.repository.PostRepository;
 import com.mycompany.myapp.service.PostService;
+import com.mycompany.myapp.service.dto.PostDetailDTO;
 import com.mycompany.myapp.web.rest.errors.BadRequestAlertException;
 import jakarta.validation.Valid;
 import jakarta.validation.constraints.NotNull;
@@ -48,7 +49,9 @@ public class PostResource {
      * {@code POST  /posts} : Create a new post.
      *
      * @param post the post to create.
-     * @return the {@link ResponseEntity} with status {@code 201 (Created)} and with body the new post, or with status {@code 400 (Bad Request)} if the post has already an ID.
+     * @return the {@link ResponseEntity} with status {@code 201 (Created)} and with
+     *         body the new post, or with status {@code 400 (Bad Request)} if the
+     *         post has already an ID.
      * @throws URISyntaxException if the Location URI syntax is incorrect.
      */
     @PostMapping("")
@@ -66,11 +69,13 @@ public class PostResource {
     /**
      * {@code PUT  /posts/:id} : Updates an existing post.
      *
-     * @param id the id of the post to save.
+     * @param id   the id of the post to save.
      * @param post the post to update.
-     * @return the {@link ResponseEntity} with status {@code 200 (OK)} and with body the updated post,
-     * or with status {@code 400 (Bad Request)} if the post is not valid,
-     * or with status {@code 500 (Internal Server Error)} if the post couldn't be updated.
+     * @return the {@link ResponseEntity} with status {@code 200 (OK)} and with body
+     *         the updated post,
+     *         or with status {@code 400 (Bad Request)} if the post is not valid,
+     *         or with status {@code 500 (Internal Server Error)} if the post
+     *         couldn't be updated.
      * @throws URISyntaxException if the Location URI syntax is incorrect.
      */
     @PutMapping("/{id}")
@@ -95,14 +100,17 @@ public class PostResource {
     }
 
     /**
-     * {@code PATCH  /posts/:id} : Partial updates given fields of an existing post, field will ignore if it is null
+     * {@code PATCH  /posts/:id} : Partial updates given fields of an existing post,
+     * field will ignore if it is null
      *
-     * @param id the id of the post to save.
+     * @param id   the id of the post to save.
      * @param post the post to update.
-     * @return the {@link ResponseEntity} with status {@code 200 (OK)} and with body the updated post,
-     * or with status {@code 400 (Bad Request)} if the post is not valid,
-     * or with status {@code 404 (Not Found)} if the post is not found,
-     * or with status {@code 500 (Internal Server Error)} if the post couldn't be updated.
+     * @return the {@link ResponseEntity} with status {@code 200 (OK)} and with body
+     *         the updated post,
+     *         or with status {@code 400 (Bad Request)} if the post is not valid,
+     *         or with status {@code 404 (Not Found)} if the post is not found,
+     *         or with status {@code 500 (Internal Server Error)} if the post
+     *         couldn't be updated.
      * @throws URISyntaxException if the Location URI syntax is incorrect.
      */
     @PatchMapping(value = "/{id}", consumes = { "application/json", "application/merge-patch+json" })
@@ -154,9 +162,11 @@ public class PostResource {
     /**
      * {@code GET  /posts} : get all the posts.
      *
-     * @param eagerload flag to eager load entities from relationships (This is applicable for many-to-many).
-     * @param filter the filter of the request.
-     * @return the {@link ResponseEntity} with status {@code 200 (OK)} and the list of posts in body.
+     * @param eagerload flag to eager load entities from relationships (This is
+     *                  applicable for many-to-many).
+     * @param filter    the filter of the request.
+     * @return the {@link ResponseEntity} with status {@code 200 (OK)} and the list
+     *         of posts in body.
      */
     @GetMapping("")
     public List<Post> getAllPosts(
@@ -186,7 +196,8 @@ public class PostResource {
      * {@code GET  /posts/:id} : get the "id" post.
      *
      * @param id the id of the post to retrieve.
-     * @return the {@link ResponseEntity} with status {@code 200 (OK)} and with body the post, or with status {@code 404 (Not Found)}.
+     * @return the {@link ResponseEntity} with status {@code 200 (OK)} and with body
+     *         the post, or with status {@code 404 (Not Found)}.
      */
     @GetMapping("/{id}")
     public ResponseEntity<Post> getPost(@PathVariable("id") Long id) {
@@ -214,5 +225,25 @@ public class PostResource {
     public ResponseEntity<List<Post>> getAllPostsByPersonId(@PathVariable Long personId) {
         List<Post> posts = postService.findAllByPersonId(personId);
         return ResponseEntity.ok().body(posts);
+    }
+
+    @PutMapping("/{id}/increaseView")
+    public ResponseEntity<Post> increaseView(@PathVariable Long id) {
+        log.debug("REST request to increase view count for Post : {}", id);
+        Optional<Post> postOptional = postRepository.findById(id);
+        if (postOptional.isPresent()) {
+            Post post = postOptional.get();
+            post.setView(post.getView() + 1);
+            postRepository.save(post);
+            return ResponseEntity.ok().body(post);
+        } else {
+            return ResponseEntity.notFound().build();
+        }
+    }
+
+    @GetMapping("/allpost")
+    public ResponseEntity<List<PostDetailDTO>> getAllPostDetails() {
+        List<PostDetailDTO> postDetail = postService.getAllPostDetails();
+        return ResponseEntity.ok(postDetail);
     }
 }

@@ -1,100 +1,134 @@
+import React, { useEffect } from 'react';
+import { Button } from 'reactstrap';
+import { Translate } from 'react-jhipster';
+import { useAppDispatch, useAppSelector } from 'app/config/store';
+import { getEntities as getCategories, getHome } from 'app/entities/category/category.reducer';
 import './home.scss';
 
-import React from 'react';
-import { Link } from 'react-router-dom';
-import { Translate } from 'react-jhipster';
-import { Row, Col, Alert } from 'reactstrap';
-
-import { useAppSelector } from 'app/config/store';
-
 export const Home = () => {
-  const account = useAppSelector(state => state.authentication.account);
+  const dispatch = useAppDispatch();
+
+  const categoryList = useAppSelector(state => state.category.entities);
+  const loadingCategories = useAppSelector(state => state.category.loading);
+
+  useEffect(() => {
+    dispatch(getHome());
+  }, [dispatch]);
 
   return (
-    <Row>
-      <Col md="3" className="pad">
-        <span className="hipster rounded" />
-      </Col>
-      <Col md="9">
-        <h1 className="display-4">
-          <Translate contentKey="home.title">Welcome, Java Hipster!</Translate>
-        </h1>
-        <p className="lead">
-          <Translate contentKey="home.subtitle">This is your homepage</Translate>
-        </p>
-        {account?.login ? (
-          <div>
-            <Alert color="success">
-              <Translate contentKey="home.logged.message" interpolate={{ username: account.login }}>
-                You are logged in as user {account.login}.
-              </Translate>
-            </Alert>
+    <div className="container">
+      <h2 id="home-heading"></h2>
+      {loadingCategories ? (
+        <p>Loading...</p>
+      ) : (
+        <div className="accordion" id="accordionExample">
+          {/* <div className="category-row">{categoryList.map(category => category && <Button key={category.id}>{category.name}</Button>)}</div> */}
+          <div className="category-row">
+            {categoryList.slice(0, -1).map(
+              category =>
+                category && (
+                  <Button key={category.id} className="category-button">
+                    {category.name}
+                  </Button>
+                ),
+            )}
           </div>
-        ) : (
-          <div>
-            <Alert color="warning">
-              <Translate contentKey="global.messages.info.authenticated.prefix">If you want to </Translate>
-
-              <Link to="/login" className="alert-link">
-                <Translate contentKey="global.messages.info.authenticated.link"> sign in</Translate>
-              </Link>
-              <Translate contentKey="global.messages.info.authenticated.suffix">
-                , you can try the default accounts:
-                <br />- Administrator (login=&quot;admin&quot; and password=&quot;admin&quot;)
-                <br />- User (login=&quot;user&quot; and password=&quot;user&quot;).
-              </Translate>
-            </Alert>
-
-            <Alert color="warning">
-              <Translate contentKey="global.messages.info.register.noaccount">You do not have an account yet?</Translate>&nbsp;
-              <Link to="/account/register" className="alert-link">
-                <Translate contentKey="global.messages.info.register.link">Register a new account</Translate>
-              </Link>
-            </Alert>
+          <div className="content">
+            <div className="main-content">
+              <div className="categories">
+                {categoryList.slice(0, -1).map(
+                  category =>
+                    category && (
+                      <div className="card" key={`category-${category.id}`} id={`category-${category.id}`}>
+                        <div className="card-header" id={`heading-${category.id}`}>
+                          <h5 className="mb-0">
+                            <button className="btn btn-link" type="button" aria-controls={`collapse-${category.id}`}>
+                              {category.name}
+                            </button>
+                          </h5>
+                        </div>
+                        <div className="card-content">
+                          <div className="left-half">
+                            {/* <div>left 1</div> */}
+                            {category.posts &&
+                              category.posts.length > 0 &&
+                              category.posts.slice(0, 1).map(cate => (
+                                <div>
+                                  {cate.paragraph && (
+                                    <>
+                                      {cate.paragraph.image && (
+                                        <img src={`data:image/png;base64,${cate.paragraph.image.image}`} alt={cate.paragraph.image.name} />
+                                      )}
+                                      <h3>{cate.name} 📷</h3>
+                                      <p className="paragraph-description">{cate.paragraph.description}</p>
+                                    </>
+                                  )}
+                                </div>
+                              ))}
+                          </div>
+                          <div className="right-half">
+                            {/* <div>left 2</div> */}
+                            {category.posts &&
+                              category.posts.length > 0 &&
+                              category.posts.slice(1).map(cate => (
+                                <div className="child">
+                                  {cate.paragraph && (
+                                    <>
+                                      {cate.paragraph.image && (
+                                        <img src={`data:image/png;base64,${cate.paragraph.image.image}`} alt={cate.paragraph.image.name} />
+                                      )}
+                                      <div className="child-1">{cate.name}</div>
+                                    </>
+                                  )}
+                                </div>
+                              ))}
+                          </div>
+                        </div>
+                      </div>
+                    ),
+                )}
+              </div>
+            </div>
+            <div className="right-content">
+              <div>right</div>
+              {categoryList.slice(-1).map(
+                category =>
+                  category && (
+                    <div className="card" key={`category-${category.id}`} id={`category-${category.id}`}>
+                      <div className="card-header" id={`heading-${category.id}`}>
+                        <h5 className="mb-0">
+                          <button className="btn btn-link" type="button" aria-controls={`collapse-${category.id}`}>
+                            {category.name}
+                          </button>
+                        </h5>
+                      </div>
+                      {/* <div className="card-content"> */}
+                      {/* <div className="right-half"> */}
+                      {/* <div>left 2</div> */}
+                      {category.posts &&
+                        category.posts.length > 0 &&
+                        category.posts.map(cate => (
+                          <div className="child">
+                            {cate.paragraph && (
+                              <>
+                                {cate.paragraph.image && (
+                                  <img src={`data:image/png;base64,${cate.paragraph.image.image}`} alt={cate.paragraph.image.name} />
+                                )}
+                                <div className="child-1">{cate.name}</div>
+                              </>
+                            )}
+                          </div>
+                        ))}
+                      {/* </div> */}
+                      {/* </div> */}
+                    </div>
+                  ),
+              )}
+            </div>
           </div>
-        )}
-        <p>
-          <Translate contentKey="home.question">If you have any question on JHipster:</Translate>
-        </p>
-
-        <ul>
-          <li>
-            <a href="https://www.jhipster.tech/" target="_blank" rel="noopener noreferrer">
-              <Translate contentKey="home.link.homepage">JHipster homepage</Translate>
-            </a>
-          </li>
-          <li>
-            <a href="https://stackoverflow.com/tags/jhipster/info" target="_blank" rel="noopener noreferrer">
-              <Translate contentKey="home.link.stackoverflow">JHipster on Stack Overflow</Translate>
-            </a>
-          </li>
-          <li>
-            <a href="https://github.com/jhipster/generator-jhipster/issues?state=open" target="_blank" rel="noopener noreferrer">
-              <Translate contentKey="home.link.bugtracker">JHipster bug tracker</Translate>
-            </a>
-          </li>
-          <li>
-            <a href="https://gitter.im/jhipster/generator-jhipster" target="_blank" rel="noopener noreferrer">
-              <Translate contentKey="home.link.chat">JHipster public chat room</Translate>
-            </a>
-          </li>
-          <li>
-            <a href="https://twitter.com/jhipster" target="_blank" rel="noopener noreferrer">
-              <Translate contentKey="home.link.follow">follow @jhipster on Twitter</Translate>
-            </a>
-          </li>
-        </ul>
-
-        <p>
-          <Translate contentKey="home.like">If you like JHipster, do not forget to give us a star on</Translate>{' '}
-          <a href="https://github.com/jhipster/generator-jhipster" target="_blank" rel="noopener noreferrer">
-            GitHub
-          </a>
-          !
-        </p>
-      </Col>
-    </Row>
+        </div>
+      )}
+    </div>
   );
 };
-
 export default Home;

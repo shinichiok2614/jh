@@ -20,4 +20,9 @@ public class ImageService {
     public List<Image> findAllByParagraphId(Long postId) {
         return imageRepository.findAllByParagraphId(postId);
     }
+
+    public List<Image> findAllByPostId(Long postId) {
+        // Sử dụng phương thức trong ImageRepository để lấy hình ảnh theo postId
+        return imageRepository.findImagesByPostId(postId);
+    }
 }

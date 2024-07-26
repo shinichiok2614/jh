@@ -1,163 +1,180 @@
 import React, { useState, useEffect } from 'react';
-import { Link, useLocation, useNavigate } from 'react-router-dom';
-import { Button, Table } from 'reactstrap';
-import { Translate, TextFormat, getSortState } from 'react-jhipster';
+import { Link } from 'react-router-dom';
+import { Button, Container, Row, Col, ListGroup, ListGroupItem, Input, Card, CardBody, CardText } from 'reactstrap';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faSort, faSortUp, faSortDown } from '@fortawesome/free-solid-svg-icons';
-import { APP_DATE_FORMAT, APP_LOCAL_DATE_FORMAT } from 'app/config/constants';
-import { ASC, DESC, SORT } from 'app/shared/util/pagination.constants';
-import { overrideSortStateWithQueryParams } from 'app/shared/util/entity-utils';
+import { faSync, faPlus, faTrash, faPaperPlane } from '@fortawesome/free-solid-svg-icons';
 import { useAppDispatch, useAppSelector } from 'app/config/store';
+import { getEntities as getConversations, deleteEntity as deleteConversation } from './message-list.reducer';
+import { getEntities as getMessages } from 'app/entities/message/message.reducer';
+import { getEntities as getImages } from 'app/entities/image/image.reducer';
+import { getEntities as getPersons } from 'app/entities/person/person.reducer';
+import { TextFormat } from 'react-jhipster';
+import { APP_DATE_FORMAT } from 'app/config/constants';
+import './message-list.css';
 
-import { getEntities } from './message-list.reducer';
-
-export const MessageList = () => {
+const MessageList = () => {
   const dispatch = useAppDispatch();
-
-  const pageLocation = useLocation();
-  const navigate = useNavigate();
-
-  const [sortState, setSortState] = useState(overrideSortStateWithQueryParams(getSortState(pageLocation, 'id'), pageLocation.search));
-
-  const messageListList = useAppSelector(state => state.messageList.entities);
+  const conversations = useAppSelector(state => state.messageList.entities);
+  const messages = useAppSelector(state => state.message.entities);
+  const images = useAppSelector(state => state.image.entities);
+  const persons = useAppSelector(state => state.person.entities);
   const loading = useAppSelector(state => state.messageList.loading);
-
-  const getAllEntities = () => {
-    dispatch(
-      getEntities({
-        sort: `${sortState.sort},${sortState.order}`,
-      }),
-    );
-  };
-
-  const sortEntities = () => {
-    getAllEntities();
-    const endURL = `?sort=${sortState.sort},${sortState.order}`;
-    if (pageLocation.search !== endURL) {
-      navigate(`${pageLocation.pathname}${endURL}`);
-    }
-  };
+  const [selectedConversation, setSelectedConversation] = useState(null);
+  const [newMessage, setNewMessage] = useState('');
 
   useEffect(() => {
-    sortEntities();
-  }, [sortState.order, sortState.sort]);
+    dispatch(getConversations({}));
+    dispatch(getImages({}));
+    dispatch(getMessages({}));
+    dispatch(getPersons({}));
+  }, [dispatch]);
 
-  const sort = p => () => {
-    setSortState({
-      ...sortState,
-      order: sortState.order === ASC ? DESC : ASC,
-      sort: p,
-    });
+  const getPersonImage = personId => {
+    const personImage = images.find(image => image.person && image.person.id === personId);
+    return personImage ? `data:${personImage.imageContentType};base64,${personImage.image}` : '';
+  };
+
+  const getPersonName = personId => {
+    const person = persons.find(p => p.id === personId);
+    return person ? person.name : 'Unknown Sender';
+  };
+
+  const handleSelectConversation = conversation => {
+    setSelectedConversation(conversation);
   };
 
   const handleSyncList = () => {
-    sortEntities();
+    dispatch(getConversations({}));
+    dispatch(getMessages({}));
+    dispatch(getImages({}));
+    dispatch(getPersons({}));
   };
 
-  const getSortIconByFieldName = (fieldName: string) => {
-    const sortFieldName = sortState.sort;
-    const order = sortState.order;
-    if (sortFieldName !== fieldName) {
-      return faSort;
-    } else {
-      return order === ASC ? faSortUp : faSortDown;
+  const handleDeleteConversation = conversationId => {
+    dispatch(deleteConversation(conversationId)).then(() => {
+      if (selectedConversation && selectedConversation.id === conversationId) {
+        setSelectedConversation(null);
+      }
+      dispatch(getConversations({}));
+    });
+  };
+
+  const handleSendMessage = () => {
+    if (newMessage.trim() && selectedConversation) {
+      // Logic to send a message (e.g., dispatch an action)
+      setNewMessage(''); // Clear the input
     }
   };
 
   return (
-    <div>
-      <h2 id="message-list-heading" data-cy="MessageListHeading">
-        <Translate contentKey="jhSeaportApp.messageList.home.title">Message Lists</Translate>
-        <div className="d-flex justify-content-end">
-          <Button className="me-2" color="info" onClick={handleSyncList} disabled={loading}>
-            <FontAwesomeIcon icon="sync" spin={loading} />{' '}
-            <Translate contentKey="jhSeaportApp.messageList.home.refreshListLabel">Refresh List</Translate>
-          </Button>
-          <Link to="/message-list/new" className="btn btn-primary jh-create-entity" id="jh-create-entity" data-cy="entityCreateButton">
-            <FontAwesomeIcon icon="plus" />
-            &nbsp;
-            <Translate contentKey="jhSeaportApp.messageList.home.createLabel">Create new Message List</Translate>
-          </Link>
-        </div>
-      </h2>
-      <div className="table-responsive">
-        {messageListList && messageListList.length > 0 ? (
-          <Table responsive>
-            <thead>
-              <tr>
-                <th className="hand" onClick={sort('id')}>
-                  <Translate contentKey="jhSeaportApp.messageList.id">ID</Translate> <FontAwesomeIcon icon={getSortIconByFieldName('id')} />
-                </th>
-                <th className="hand" onClick={sort('name')}>
-                  <Translate contentKey="jhSeaportApp.messageList.name">Name</Translate>{' '}
-                  <FontAwesomeIcon icon={getSortIconByFieldName('name')} />
-                </th>
-                <th className="hand" onClick={sort('createdAt')}>
-                  <Translate contentKey="jhSeaportApp.messageList.createdAt">Created At</Translate>{' '}
-                  <FontAwesomeIcon icon={getSortIconByFieldName('createdAt')} />
-                </th>
-                <th>
-                  <Translate contentKey="jhSeaportApp.messageList.author">Author</Translate> <FontAwesomeIcon icon="sort" />
-                </th>
-                <th>
-                  <Translate contentKey="jhSeaportApp.messageList.receiver">Receiver</Translate> <FontAwesomeIcon icon="sort" />
-                </th>
-                <th />
-              </tr>
-            </thead>
-            <tbody>
-              {messageListList.map((messageList, i) => (
-                <tr key={`entity-${i}`} data-cy="entityTable">
-                  <td>
-                    <Button tag={Link} to={`/message-list/${messageList.id}`} color="link" size="sm">
-                      {messageList.id}
-                    </Button>
-                  </td>
-                  <td>{messageList.name}</td>
-                  <td>
-                    {messageList.createdAt ? <TextFormat type="date" value={messageList.createdAt} format={APP_DATE_FORMAT} /> : null}
-                  </td>
-                  <td>{messageList.author ? <Link to={`/person/${messageList.author.id}`}>{messageList.author.name}</Link> : ''}</td>
-                  <td>{messageList.receiver ? <Link to={`/person/${messageList.receiver.id}`}>{messageList.receiver.name}</Link> : ''}</td>
-                  <td className="text-end">
-                    <div className="btn-group flex-btn-group-container">
-                      <Button tag={Link} to={`/message-list/${messageList.id}`} color="info" size="sm" data-cy="entityDetailsButton">
-                        <FontAwesomeIcon icon="eye" />{' '}
-                        <span className="d-none d-md-inline">
-                          <Translate contentKey="entity.action.view">View</Translate>
-                        </span>
-                      </Button>
-                      <Button tag={Link} to={`/message-list/${messageList.id}/edit`} color="primary" size="sm" data-cy="entityEditButton">
-                        <FontAwesomeIcon icon="pencil-alt" />{' '}
-                        <span className="d-none d-md-inline">
-                          <Translate contentKey="entity.action.edit">Edit</Translate>
-                        </span>
-                      </Button>
-                      <Button
-                        onClick={() => (window.location.href = `/message-list/${messageList.id}/delete`)}
-                        color="danger"
-                        size="sm"
-                        data-cy="entityDeleteButton"
-                      >
-                        <FontAwesomeIcon icon="trash" />{' '}
-                        <span className="d-none d-md-inline">
-                          <Translate contentKey="entity.action.delete">Delete</Translate>
-                        </span>
-                      </Button>
-                    </div>
-                  </td>
-                </tr>
-              ))}
-            </tbody>
-          </Table>
-        ) : (
-          !loading && (
-            <div className="alert alert-warning">
-              <Translate contentKey="jhSeaportApp.messageList.home.notFound">No Message Lists found</Translate>
+    <div className="app-container">
+      <Container fluid className="message-list-container">
+        <Row>
+          <Col md="4" className="conversation-list">
+            <div className="d-flex justify-content-between align-items-center">
+              <h2>Conversations</h2>
+              <div>
+                <Button color="info" onClick={handleSyncList} disabled={loading} className="me-2">
+                  <FontAwesomeIcon icon={faSync} spin={loading} />
+                </Button>
+                <Link to="/message-list/new" className="btn btn-primary">
+                  <FontAwesomeIcon icon={faPlus} />
+                </Link>
+              </div>
             </div>
-          )
-        )}
-      </div>
+            <ListGroup>
+              {conversations.map(conversation => (
+                <ListGroupItem
+                  key={conversation.id}
+                  active={selectedConversation && selectedConversation.id === conversation.id}
+                  onClick={() => handleSelectConversation(conversation)}
+                  className="d-flex justify-content-between align-items-center"
+                >
+                  <div className="d-flex align-items-center">
+                    {conversation.receiver && (
+                      <div className="avatar-container">
+                        <img
+                          src={getPersonImage(conversation.receiver.id)}
+                          alt={conversation.receiver.name}
+                          className="rounded-circle conversation-avatar"
+                        />
+                      </div>
+                    )}
+                    <span className="ml-2">{conversation.receiver ? conversation.receiver.name : 'Unknown Receiver'}</span>
+                  </div>
+                  <Link to={`/message-list/${conversation.id}/edit`} className="btn btn-secondary me-2">
+                    <FontAwesomeIcon icon="pencil-alt" />
+                  </Link>
+                  <Button color="danger" size="sm" onClick={() => handleDeleteConversation(conversation.id)}>
+                    <FontAwesomeIcon icon={faTrash} />
+                  </Button>
+                </ListGroupItem>
+              ))}
+            </ListGroup>
+          </Col>
+          <Col md="8" className="message-area">
+            {selectedConversation ? (
+              <div>
+                <h3>Chat with {selectedConversation.receiver ? selectedConversation.receiver.name : 'Unknown Receiver'}</h3>
+                <div className="message-display">
+                  {messages
+                    .filter(message => message.messagelist && message.messagelist.id === selectedConversation.id)
+                    .map(message => (
+                      <div
+                        key={message.id}
+                        className={`d-flex align-items-center mb-2 ${
+                          message.sender && message.sender.id === selectedConversation.receiver.id
+                            ? 'justify-content-end'
+                            : 'justify-content-start'
+                        }`}
+                      >
+                        <Card className="message-card">
+                          <CardBody className="d-flex p-0">
+                            <div
+                              className={`message-info text-center ${message.sender && message.sender.id === selectedConversation.receiver.id ? 'order-last' : ''}`}
+                            >
+                              <img
+                                src={getPersonImage(message.sender.id)}
+                                alt={getPersonName(message.sender.id)}
+                                className="rounded-circle message-avatar"
+                                style={{ width: '50px', height: '50px' }}
+                              />
+                              <div>{getPersonName(message.sender.id)}</div>
+                            </div>
+                            <div className="message-content ms-3">
+                              <CardText>{message.content}</CardText>
+                            </div>
+                          </CardBody>
+                          <div className="d-flex justify-content-center">
+                            <small>
+                              <TextFormat type="date" value={message.createdAt} format={APP_DATE_FORMAT} />
+                            </small>
+                          </div>
+                        </Card>
+                      </div>
+                    ))}
+                </div>
+                <div className="message-input d-flex mt-3">
+                  <Input
+                    type="text"
+                    value={newMessage}
+                    onChange={e => setNewMessage(e.target.value)}
+                    placeholder="Type your message..."
+                    className="me-2"
+                  />
+                  <Button color="primary" onClick={handleSendMessage}>
+                    <FontAwesomeIcon icon={faPaperPlane} />
+                  </Button>
+                </div>
+              </div>
+            ) : (
+              <div className="text-center">
+                <p>Select a conversation to start chatting.</p>
+              </div>
+            )}
+          </Col>
+        </Row>
+      </Container>
     </div>
   );
 };
