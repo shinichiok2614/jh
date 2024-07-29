@@ -4,6 +4,7 @@ import { Translate } from 'react-jhipster';
 import { useAppDispatch, useAppSelector } from 'app/config/store';
 import { getEntities as getCategories, getHome } from 'app/entities/category/category.reducer';
 import './home.scss';
+import { Link } from 'react-router-dom';
 
 export const Home = () => {
   const dispatch = useAppDispatch();
@@ -27,9 +28,12 @@ export const Home = () => {
             {categoryList.slice(0, -1).map(
               category =>
                 category && (
-                  <Button key={category.id} className="category-button">
+                  <Link key={category.id} to={`/paragraph/${category.id}`} className="category-button">
                     {category.name}
-                  </Button>
+                  </Link>
+                  // <Button key={category.id} className="category-button">
+                  //   {category.name}
+                  // </Button>
                 ),
             )}
           </div>
@@ -59,7 +63,9 @@ export const Home = () => {
                                       {cate.paragraph.image && (
                                         <img src={`data:image/png;base64,${cate.paragraph.image.image}`} alt={cate.paragraph.image.name} />
                                       )}
-                                      <h3>{cate.name} 📷</h3>
+                                      <Link to={`/paragraph/${cate.id}/postId`}>
+                                        <h3>{cate.name} 📷</h3>
+                                      </Link>
                                       <p className="paragraph-description">{cate.paragraph.description}</p>
                                     </>
                                   )}
@@ -77,7 +83,9 @@ export const Home = () => {
                                       {cate.paragraph.image && (
                                         <img src={`data:image/png;base64,${cate.paragraph.image.image}`} alt={cate.paragraph.image.name} />
                                       )}
-                                      <div className="child-1">{cate.name}</div>
+                                      <Link to={`/paragraph/${cate.id}/postId`}>
+                                        <div className="child-1">{cate.name}</div>
+                                      </Link>
                                     </>
                                   )}
                                 </div>
@@ -90,7 +98,7 @@ export const Home = () => {
               </div>
             </div>
             <div className="right-content">
-              <div>right</div>
+              {/* <div>right</div> */}
               {categoryList.slice(-1).map(
                 category =>
                   category && (
@@ -98,13 +106,10 @@ export const Home = () => {
                       <div className="card-header" id={`heading-${category.id}`}>
                         <h5 className="mb-0">
                           <button className="btn btn-link" type="button" aria-controls={`collapse-${category.id}`}>
-                            {category.name}
+                            Xem nhiều nhất
                           </button>
                         </h5>
                       </div>
-                      {/* <div className="card-content"> */}
-                      {/* <div className="right-half"> */}
-                      {/* <div>left 2</div> */}
                       {category.posts &&
                         category.posts.length > 0 &&
                         category.posts.map(cate => (
@@ -114,7 +119,9 @@ export const Home = () => {
                                 {cate.paragraph.image && (
                                   <img src={`data:image/png;base64,${cate.paragraph.image.image}`} alt={cate.paragraph.image.name} />
                                 )}
-                                <div className="child-1">{cate.name}</div>
+                                <Link to={`/paragraph/${cate.id}/postId`}>
+                                  <div className="child-1">{cate.name}</div>
+                                </Link>
                               </>
                             )}
                           </div>

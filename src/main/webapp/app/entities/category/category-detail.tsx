@@ -7,6 +7,7 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { useAppDispatch, useAppSelector } from 'app/config/store';
 
 import { getEntity } from './category.reducer';
+import { getEntitiesByCategoryId } from '../post/post.reducer';
 
 export const CategoryDetail = () => {
   const dispatch = useAppDispatch();
@@ -15,6 +16,7 @@ export const CategoryDetail = () => {
 
   useEffect(() => {
     dispatch(getEntity(id));
+    dispatch(getEntitiesByCategoryId({ categoryId: parseInt(id, 10) }));
   }, []);
 
   const categoryEntity = useAppSelector(state => state.category.entity);

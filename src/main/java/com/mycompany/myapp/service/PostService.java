@@ -4,6 +4,7 @@ import com.mycompany.myapp.domain.Image;
 import com.mycompany.myapp.domain.Paragraph;
 import com.mycompany.myapp.domain.Person;
 import com.mycompany.myapp.domain.Post;
+import com.mycompany.myapp.domain.Status;
 import com.mycompany.myapp.repository.ImageRepository;
 import com.mycompany.myapp.repository.ParagraphRepository;
 import com.mycompany.myapp.repository.PersonRepository;
@@ -11,7 +12,9 @@ import com.mycompany.myapp.repository.PostRepository;
 import com.mycompany.myapp.service.dto.ImageDTO;
 import com.mycompany.myapp.service.dto.ParagraphDTO;
 import com.mycompany.myapp.service.dto.PersonDTO;
+import com.mycompany.myapp.service.dto.PostDTO;
 import com.mycompany.myapp.service.dto.PostDetailDTO;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 import org.springframework.stereotype.Service;
@@ -118,5 +121,31 @@ public class PostService {
                 return dto;
             })
             .collect(Collectors.toList());
+    }
+
+    public List<PostDTO> findPostsByCategoryAndStatus(Long categoryId) {
+        List<Post> posts = postRepository.findAllByCategoryIdAndStatus(categoryId, Status.SUCCESS);
+        List<PostDTO> postDTOs = new ArrayList<>();
+
+        for (Post post : posts) {
+            PostDTO postDTO = new PostDTO();
+            postDTO.setId(post.getId());
+            postDTO.setName(post.getName());
+            postDTO.setCreatedAt(post.getCreatedAt());
+
+            // List<Paragraph> paragraphs = paragraphRepository.findAllByPostIdOrderByOrderAsc(post.getId());
+            // if (!paragraphs.isEmpty()) {
+            //     Paragraph firstParagraph = paragraphs.get(0);
+            //     postDTO.setParagraphName(firstParagraph.getName());
+            //     postDTO.setParagraphDescription(firstParagraph.getDescription());
+
+            //     List<Image> images = imageRepository.findAllByParagraphId(firstParagraph.getId());
+            //     if (!images.isEmpty()) {
+            //         postDTO.setImageUrl(images.get(0).getImage().toString()); // Cần chỉnh sửa theo cách lưu trữ và truy xuất image thực tế của bạn
+            //     }
+            // }
+            postDTOs.add(postDTO);
+        }
+        return postDTOs;
     }
 }

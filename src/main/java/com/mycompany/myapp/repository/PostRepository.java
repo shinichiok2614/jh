@@ -1,6 +1,7 @@
 package com.mycompany.myapp.repository;
 
 import com.mycompany.myapp.domain.Post;
+import com.mycompany.myapp.domain.Status;
 import java.util.List;
 import java.util.Optional;
 import org.springframework.data.domain.Page;
@@ -47,4 +48,8 @@ public interface PostRepository extends JpaRepository<Post, Long> {
 
     @Query("SELECT p FROM Post p ORDER BY p.view DESC")
     List<Post> findTop4OrderByViewDesc();
+
+    @Query("SELECT p FROM Post p WHERE p.category.id = :categoryId AND p.status = :status")
+    // @Query("SELECT p FROM Post p WHERE p.category.id = :categoryId")
+    List<Post> findAllByCategoryIdAndStatus(@Param("categoryId") Long categoryId, @Param("status") Status status);
 }

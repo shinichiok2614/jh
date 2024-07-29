@@ -101,6 +101,7 @@ import { useAppDispatch, useAppSelector } from 'app/config/store';
 
 import { getEntity } from './post.reducer';
 import Post from 'app/components/post/post';
+// import Post from '.'
 
 export const PostDetail = () => {
   const dispatch = useAppDispatch();

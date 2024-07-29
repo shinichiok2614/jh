@@ -3,6 +3,7 @@ package com.mycompany.myapp.web.rest;
 import com.mycompany.myapp.domain.Post;
 import com.mycompany.myapp.repository.PostRepository;
 import com.mycompany.myapp.service.PostService;
+import com.mycompany.myapp.service.dto.PostDTO;
 import com.mycompany.myapp.service.dto.PostDetailDTO;
 import com.mycompany.myapp.web.rest.errors.BadRequestAlertException;
 import jakarta.validation.Valid;
@@ -245,5 +246,11 @@ public class PostResource {
     public ResponseEntity<List<PostDetailDTO>> getAllPostDetails() {
         List<PostDetailDTO> postDetail = postService.getAllPostDetails();
         return ResponseEntity.ok(postDetail);
+    }
+
+    @GetMapping("/by-category/{categoryId}")
+    public ResponseEntity<List<PostDTO>> getPostsByCategoryAndStatus(@PathVariable Long categoryId) {
+        List<PostDTO> postDTOs = postService.findPostsByCategoryAndStatus(categoryId);
+        return ResponseEntity.ok().body(postDTOs);
     }
 }

@@ -1,0 +1,39 @@
+.post-card-header {
+  display: flex;
+  height: 100%; /* Cho phép thẻ bài viết mở rộng chiều rộng đầy đủ */
+  max-width: 1000px; /* Giới hạn chiều rộng tối đa nếu cần */
+  /* flex-direction: column; */
+}
+
+.post-image {
+  width: 50%; /* Điều chỉnh chiều rộng của ảnh để phù hợp với bố cục */
+  object-fit: cover; /* Đảm bảo ảnh không bị biến dạng */
+}
+
+.post-content {
+  width: 100%; /* Điều chỉnh chiều rộng của ảnh để phù hợp với bố cục */
+  padding: 16px;
+  flex-grow: 1; /* Cho phép phần nội dung mở rộng */
+}
+
+.post-title {
+  font-size: 1.5em;
+  margin-bottom: 8px;
+}
+.post-date-comment {
+  display: flex;
+  justify-content: space-between;
+}
+/* .post-date,
+.post-view,
+.post-comments {
+  font-size: 0.9em;
+  color: #555;
+  margin-bottom: 4px;
+} */
+
+.author {
+  font-style: italic;
+  font-size: 30px;
+  color: rgb(190, 70, 1);
+}

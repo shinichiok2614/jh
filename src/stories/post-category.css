@@ -1,0 +1,31 @@
+.post-card {
+  border: 1px solid #ccc;
+  border-radius: 8px;
+  overflow: hidden;
+  max-width: 1000px;
+  margin: 16px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  width: 500px;
+  /* flex-direction: row; */
+}
+
+.post-image {
+  width: 100%;
+}
+
+.post-content {
+  padding: 16px;
+}
+
+.post-title {
+  font-size: 1.5em;
+  margin-bottom: 8px;
+}
+
+.post-date,
+.post-view,
+.post-comments {
+  font-size: 0.9em;
+  color: #555;
+  margin-bottom: 4px;
+}

@@ -32,6 +32,15 @@ export const getEntitiesByPersonId = createAsyncThunk(
   { serializeError: serializeAxiosError },
 );
 
+export const getEntitiesByCategoryId = createAsyncThunk(
+  'post/fetch_entities_by_category_id',
+  async ({ categoryId, sort }: { categoryId: number; sort?: string }) => {
+    const requestUrl = `${apiUrl}/by-category/${categoryId}?${sort ? `sort=${sort}&` : ''}cacheBuster=${new Date().getTime()}`;
+    return axios.get<IPost[]>(requestUrl);
+  },
+  { serializeError: serializeAxiosError },
+);
+
 export const getEntities = createAsyncThunk(
   'post/fetch_entity_list',
   async ({ sort }: IQueryParams) => {
